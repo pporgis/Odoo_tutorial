@@ -1,7 +1,4 @@
 from odoo import fields, models, api
-from odoo.exceptions import UserError, AccessError
-from itertools import groupby
-from odoo import Command
 
 class EstateProperty(models.Model):
     _inherit = "estate.property"

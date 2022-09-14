@@ -1,8 +1,9 @@
 from dataclasses import field
+import datetime
+from openerp.tools import float_compare
+
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
-from openerp.tools import float_compare
-import datetime
 
 class EstateProperty(models.Model):
     _name = "estate.property"
