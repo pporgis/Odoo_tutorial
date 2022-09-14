@@ -37,7 +37,7 @@
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <tree decoration-success="state=='offer received' or state=='offer accepted'" decoration-bf="state=='offer accepted'" decoration-muted="state=='offer sold'" >
+            <tree decoration-success="state=='received' or state=='accepted'" decoration-bf="state=='accepted'" decoration-muted="state=='sold'" >
                 <field name="name" string="Title"/>
                 <field name="postcode"/>
                 <field name="bedrooms"/>
@@ -123,7 +123,7 @@
                         <page string="Other Info">
                             <group>
                                 <field name="user_id"/>
-                                <field name="buyer"/>
+                                <field name="buyer_id"/>
                             </group>
                         </page>
                     </notebook>
@@ -143,7 +143,7 @@
                 <field name="bedrooms"/>
                 <field name="living_area" string="Living Aera (sqm)" filter_domain="['|', ('living_area', '=', self), ('living_area', '>', self)]"/>
                 <field name="facades"/>
-                <filter string="Available" name="available" domain="['|', ('state', '=', 'offer received'), ('state', '=', 'new')]"/>
+                <filter string="Available" name="available" domain="['|', ('state', '=', 'received'), ('state', '=', 'new')]"/>
                 <group expand="1" string="Group By">
                     <filter string="Postcode" name="postcode" context="{'group_by':'postcode', 'residual_visible':True}"/>
                 </group>

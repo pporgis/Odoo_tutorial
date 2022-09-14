@@ -1,4 +1,5 @@
-from odoo import fields, models, api
+from odoo import fields, models, api, _
+
 
 class EstateProperty(models.Model):
     _inherit = "estate.property"
@@ -7,7 +8,7 @@ class EstateProperty(models.Model):
         # self.sudo()._create_invoices()
         invoice_vals = {
             'move_type': 'out_invoice',
-            'partner_id': self.buyer,
+            'partner_id': self.buyer_id,
             'journal_id': self.env['account.move'].with_context(
                 default_move_type='out_invoice')._get_default_journal().id,
             'invoice_line_ids': [
