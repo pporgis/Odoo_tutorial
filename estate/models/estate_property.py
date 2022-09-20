@@ -41,12 +41,14 @@ class EstateProperty(models.Model):
         default='new')
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
     buyer_id = fields.Many2one('res.partner', string="Buyer")
-    user_id = fields.Many2one('res.users', string='Salesman', index=True, tracking=True,
-                              default=lambda self: self.env.user)
+    user_id = fields.Many2one('res.users', string='Salesman', index=True, tracking=True)
+    # user_id = fields.Many2one('res.users', string='Salesman', index=True, tracking=True,
+    #                           default=lambda self: self.env.user)
     tag_ids = fields.Many2many("estate.property.tag", string="Tags")
     offer_ids = fields.One2many("estate.property.offer", "property_id", string="Offers")
     total_area = fields.Integer(compute="_compute_total_area")
     best_price = fields.Float(compute="_compute_best_price")
+    company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.company, required="True")
 
     _sql_constraints = [
         ('check_price', 'CHECK(expected_price >= 0 AND selling_price >= 0)',
@@ -210,7 +212,7 @@ class EstatePropertyOffer(models.Model):
         if self.status is not 'accepted' and self.property_id.selling_price == 0.0:
             self.status = 'accepted'
             self.property_id.state = 'accepted'
-            self.property_id.buyer = self.partner_id
+            self.property_id.buyer_id = self.partner_id
             self.property_id.selling_price = self.price
         else:
             message = _("Property is already accepted.")

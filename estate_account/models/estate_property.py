@@ -1,11 +1,17 @@
 from odoo import fields, models, api, _
+from odoo.exceptions import UserError, AccessError
+from itertools import groupby
 
 
 class EstateProperty(models.Model):
     _inherit = "estate.property"
 
-    def action_sold(self):
-        # self.sudo()._create_invoices()
+    def _create_invoices(self):
+        if not self.env["account.move"].check_access_rights("write"):
+            raise AccessError(_("You have no permission for this operation, contact manager."))
+        if not (self.env["account.move"].check_access_rule("write")) is None:
+            raise AccessError(_("You have no permission for this operation, contact manager."))
+
         invoice_vals = {
             'move_type': 'out_invoice',
             'partner_id': self.buyer_id,
@@ -27,4 +33,9 @@ class EstateProperty(models.Model):
                 })],
         }
         moves = self.env['account.move'].create(invoice_vals)
+
+    def action_sold(self):
+        print(" reached ".center(100, '='))
+
+        self.sudo()._create_invoices()
         return super().action_sold()

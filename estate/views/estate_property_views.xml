@@ -96,6 +96,7 @@
                                 <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}"/>
                                 <field name="active"/>
                                 <field name="total_area"/>
+                                <field name="company_id"/>
                             </group>
                         </page>
                         <page string="Offers">

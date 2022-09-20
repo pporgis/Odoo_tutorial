@@ -1,0 +1,44 @@
+<odoo>
+        <record id="module_category_real_estate_brokerage" model="ir.module.category">
+            <field name="name">EP</field>
+            <field name="description">Helps you manage your agents.</field>
+        </record>
+
+        <record id="estate_group_user" model="res.groups">
+            <field name="name">Agent</field>
+            <field name="category_id" ref="module_category_real_estate_brokerage"/>
+            <field name="comment">The user will be able to manage own estate property.</field>
+        </record>
+
+        <record id="estate_group_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_real_estate_brokerage"/>
+            <field name="implied_ids" eval="[(4, ref('estate_group_user'))]"/>
+            <field name="comment">The user will be able to manage estate property web.</field>
+        </record>
+
+    <data noupdate="1">
+        <record id="estate_property_rule_user" model="ir.rule">
+            <field name="name">Estate property user rule</field>
+            <field name="model_id" ref="model_estate_property"/>
+            <field name="groups" eval="[(4, ref('estate_group_user'))]"/>
+            <field name="domain_force">['|',('user_id','=',user.id),('user_id', '=', False)]</field>
+        </record>
+
+        <record id="estate_property_rule_manager" model="ir.rule">
+            <field name="name">Estate property manager rule</field>
+            <field name="model_id" ref="model_estate_property"/>
+            <field name="groups" eval="[(4, ref('estate_group_manager'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <record id="appraisal_mult_com_rule" model="ir.rule">
+            <field name="name">Appraisal multi-company rule</field>
+            <field name="model_id" ref="model_estate_property"/>
+            <field name="domain_force">[
+                '|', ('company_id', '=', False),
+                     ('company_id', 'in', company_ids) ]
+            </field>
+        </record>
+    </data>
+</odoo>
